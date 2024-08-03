@@ -1,8 +1,10 @@
 import json
 import os
 
-from modules.mod import Mod
-
+class Mod:
+    def __init__(self, project_id: str, file_id: str):
+        self.project_id = project_id
+        self.file_id = file_id
 
 class Modpack:
     def __init__(self, modpack_id: str):
