@@ -12,7 +12,6 @@ class App:
         self.modpack_manager = ModpackManager(settings.modpacks_path)
         self.modpacks = []
         self.selected_modpack = None
-        self.selected_option = None
         self.downloader = Downloader()
 
     def update_modpacks(self):
