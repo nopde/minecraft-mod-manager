@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 
 class Mod:
     def __init__(self, project_id: str, file_id: str):
@@ -58,6 +59,8 @@ class ModpackManager:
                 modpacks["modpacks"].remove(modpack)
                 with open(self.modpacks_path, "w") as f:
                     json.dump(modpacks, f, indent=4)
+
+                shutil.rmtree(os.path.join("modpacks", modpack_id))
                 return True
         return False
 

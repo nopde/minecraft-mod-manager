@@ -58,4 +58,4 @@ class Downloader:
 
         end = time.time()
 
-        print(f"Downloaded modpack '{modpack.modpack_id}' in {end - start} seconds.")
+        return end - start

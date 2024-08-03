@@ -92,9 +92,9 @@ class App:
         EmptyMenu("Minecraft Modpack Manager").render()
         print(f"Downloading modpack '{modpack.modpack_id}'...\r\n")
 
-        asyncio.run(self.downloader.download_modpack(modpack))
+        time = asyncio.run(self.downloader.download_modpack(modpack))
 
-        InputMenu(f"Minecraft Modpack Manager\r\n\r\nDownloaded modpack '{modpack.modpack_id}'!", "Press Enter to return to the main menu.").render()
+        InputMenu(f"Minecraft Modpack Manager\r\n\r\nDownloaded modpack '{modpack.modpack_id}' in {time} seconds!", "Press Enter to return to the main menu.").render()
 
         self.main_menu()
 
