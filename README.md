@@ -19,5 +19,8 @@ A simple modpack manager for Minecraft.
 6. Select the modpack and click download.
 7. Enjoy your modpack!
 
+## Thanks to
+- [CurseForge API](https://www.curseforge.com/docs/api/)
+
 ## Contributions
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
