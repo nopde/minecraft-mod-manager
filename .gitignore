@@ -1,0 +1,6 @@
+__pycache__/
+modpacks/
+
+*.json
+*.pyc
+*.jar
