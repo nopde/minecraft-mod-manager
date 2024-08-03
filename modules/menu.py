@@ -1,15 +1,26 @@
 import os
 
 
-class Option:
-    def __init__(self, name: str, callback: callable, *args, **kwargs):
-        self.name = name
-        self.callback = callback
-        self.args = args
-        self.kwargs = kwargs
+class Action:
+    def __init__(self, action: callable, *action_args, **action_kwargs):
+        self.action = action
+        self.action_args = action_args
+        self.action_kwargs = action_kwargs
 
     def execute(self):
-        self.callback(*self.args, **self.kwargs)
+        self.action(*self.action_args, **self.action_kwargs)
+
+
+class Option:
+    def __init__(self, name: str, action: Action, callback: callable = None):
+        self.name = name
+        self.action = action
+        self.callback = callback
+
+    def execute(self):
+        self.action.execute()
+        if self.callback:
+            self.callback()
 
 
 class Options:

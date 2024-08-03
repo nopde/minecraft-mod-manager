@@ -3,7 +3,7 @@ import os
 
 from modules.modpack import ModpackManager, Modpack
 from modules.settings import settings
-from modules.menu import OptionsMenu, Options, Option, InputMenu, EmptyMenu
+from modules.menu import OptionsMenu, Options, Option, Action, InputMenu, EmptyMenu
 from modules.downloader import Downloader
 
 
@@ -27,8 +27,8 @@ class App:
 
         options = Options(
             [
-                Option("Add modpack", self.add_modpack_menu),
-                Option("Quit", quit),
+                Option("Add modpack", Action(self.add_modpack_menu)),
+                Option("Quit", Action(quit)),
             ]
         )
 
@@ -36,7 +36,7 @@ class App:
         if has_modpacks:
             options.options.insert(
                 0,
-                Option("Manage modpack", self.select_modpack_menu),
+                Option("Manage modpack", Action(self.select_modpack_menu)),
             )
 
         menu = OptionsMenu("Minecraft Modpack Manager", "Options:", options)
@@ -74,8 +74,8 @@ class App:
             options.append(
                 Option(
                     modpack["modpackID"],
-                    select_modpack,
-                    modpack_id=modpack["modpackID"],
+                    Action(select_modpack, modpack_id=modpack["modpackID"]),
+                    self.modpack_menu
                 )
             )
 
@@ -88,16 +88,13 @@ class App:
 
         menu.render()
 
-        self.modpack_menu()
-
     def downloading_modpack_menu(self, modpack: Modpack):
         EmptyMenu("Minecraft Modpack Manager").render()
         print(f"Downloading modpack '{modpack.modpack_id}'...\r\n")
 
         asyncio.run(self.downloader.download_modpack(modpack))
 
-    def remove_modpack(self, modpack_id: str):
-        self.modpack_manager.remove_modpack(modpack_id)
+        InputMenu(f"Minecraft Modpack Manager\r\n\r\nDownloaded modpack '{modpack.modpack_id}'!", "Press Enter to return to the main menu.").render()
 
         self.main_menu()
 
@@ -105,9 +102,9 @@ class App:
         modpack = self.modpack_manager.get_modpack(self.selected_modpack)
         options = Options(
             [
-                Option("Download", self.downloading_modpack_menu, modpack),
-                Option("Remove this modpack", self.remove_modpack, modpack.modpack_id),
-                Option("Back to main menu", self.main_menu),
+                Option("Download", Action(self.downloading_modpack_menu, modpack)),
+                Option("Remove this modpack", Action(self.modpack_manager.remove_modpack, modpack.modpack_id), self.main_menu),
+                Option("Back to main menu", Action(self.main_menu)),
             ]
         )
         menu = OptionsMenu(
