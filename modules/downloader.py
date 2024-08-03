@@ -1,5 +1,6 @@
 import aiohttp
 import asyncio
+import time
 from urllib.parse import unquote
 
 from modules.modpack import Modpack
@@ -33,6 +34,7 @@ class Downloader:
                 break
 
     async def download_modpack(self, modpack: Modpack):
+        start = time.time()
         semaphore = asyncio.Semaphore(5)
         tasks = []
 
@@ -49,3 +51,7 @@ class Downloader:
                 )
 
         await asyncio.gather(*tasks)
+
+        end = time.time()
+
+        print(f"Downloaded modpack '{modpack.modpack_id}' in {end - start} seconds.")
