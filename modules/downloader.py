@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 import time
+from os.path import exists
 from urllib.parse import unquote
 
 from modules.modpack import Modpack
@@ -14,6 +15,9 @@ class Downloader:
                 async with aiohttp.ClientSession() as session:
                     async with session.get(url) as response:
                         filename = unquote(str(response.url).split("/")[-1])
+                        if exists(f"modpacks/{modpack_id}/{filename}"):
+                            print(f"Mod {filename} already exists, skipping...")
+                            break
                         if response.status == 200:
                             print(f"Downloaded {filename}...")
 
